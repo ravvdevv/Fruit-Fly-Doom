@@ -8,7 +8,7 @@ It uses [FlyScroll](https://github.com/ravvdevv/Fruitfly-Doomscroller) to simula
 
 ## Live dashboard
 
-![FlyScroll live dashboard](dashboard-screenshot.png)
+![FlyScroll live dashboard](fly-demo.gif)
 
 The dashboard streams game frames and simulation telemetry while the FlyScroll adventure pilot is running. It displays the game view alongside the fly's 3D model, neural activity, visual signals, and current actions. The image above is a static snapshot of the dashboard, not a gameplay recording.
 
