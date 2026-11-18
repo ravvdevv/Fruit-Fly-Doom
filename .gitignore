@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Downloaded third-party game binaries and assets
+gzdoom-*/
+freedoom-*/
+
+# Local runtime output
+get-pip.py
+neural_doom_dryrun.*
+*.log
+*.err
+*.out
+stdout.txt
+stderr.txt
+out.txt
+err.txt
+pip_out.txt
+_vizdoom.ini
+_inspect_windows.py
+
+# Local test/debug helpers
+test_*.py

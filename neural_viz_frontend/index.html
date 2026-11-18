@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#05080c">
+  <title>Fruitfly Neural Dashboard — MaleCNS Visual Connectome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Connection status bar -->
+    <header class="status-bar" role="status" aria-live="polite">
+      <div class="status-left">
+        <span class="connection-indicator" id="conn-indicator" aria-label="Connection status">
+          <span class="pulse-ring"></span>
+          <span class="dot"></span>
+        </span>
+        <span class="connection-text" id="conn-text">Connecting…</span>
+        <span class="divider" aria-hidden="true">|</span>
+        <span class="mode-badge" id="mode-badge">LIVE</span>
+      </div>
+      <div class="status-center">
+        <span class="metric" id="fps-metric"><span class="value">0</span><span class="label">FPS</span></span>
+        <span class="metric" id="frame-metric"><span class="value">0</span><span class="label">FRAME</span></span>
+        <span class="metric" id="spikes-metric"><span class="value">0</span><span class="label">SPIKES/s</span></span>
+      </div>
+      <div class="status-right">
+        <span class="metric" id="sim-metric"><span class="value">0.0</span><span class="label">SIM ms</span></span>
+        <span class="metric" id="kernel-metric"><span class="value">0.0</span><span class="label">KERNEL ms</span></span>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Left panel: Neural population activity -->
+      <section class="panel neural-panel" aria-labelledby="neural-title">
+        <header class="panel-header">
+          <h2 id="neural-title">NEURAL POPULATION ACTIVITY</h2>
+          <div class="panel-controls">
+            <button class="icon-btn" id="neural-fullscreen" aria-label="Fullscreen neural view" title="Fullscreen">⛶</button>
+            <button class="icon-btn" id="neural-pause" aria-label="Pause updates" title="Pause">⏸</button>
+          </div>
+        </header>
+        <div class="panel-content">
+          <canvas id="neural-canvas" aria-label="Real-time neural spike rates for descending neuron populations"></canvas>
+          <div class="neural-legend" id="neural-legend" aria-label="Neuron population legend"></div>
+        </div>
+      </section>
+
+      <!-- Center panel: Visual processing & Brain view -->
+      <section class="panel brain-panel" aria-labelledby="brain-title">
+        <header class="panel-header">
+          <h2 id="brain-title">VISUAL PROCESSING & BRAIN STATE</h2>
+          <div class="panel-controls">
+            <button class="icon-btn" id="brain-fullscreen" aria-label="Fullscreen brain view" title="Fullscreen">⛶</button>
+            <select id="brain-view" aria-label="Brain view mode">
+              <option value="retinal">Retinal Input</option>
+              <option value="connectome" selected>Connectome Activity</option>
+              <option value="decoded">Decoded Commands</option>
+            </select>
+          </div>
+        </header>
+        <div class="panel-content">
+          <div class="brain-views">
+            <div class="brain-view active" id="view-retinal" data-view="retinal" aria-hidden="true">
+              <canvas id="retinal-canvas" aria-label="Fly retinal processing visualization"></canvas>
+              <div class="view-overlay">
+                <span class="view-title">COMPOUND EYE INPUT</span>
+                <span class="view-subtitle">Luminance + Chromatic channels → FlyEyeProcessor</span>
+              </div>
+            </div>
+            <div class="brain-view" id="view-connectome" data-view="connectome" aria-hidden="false">
+              <canvas id="connectome-canvas" aria-label="3D connectome neuron activity"></canvas>
+              <div class="view-overlay">
+                <span class="view-title">MALECNS VISUAL CONNECTOME</span>
+                <span class="view-subtitle">~69.5k neurons | Descending pathways highlighted</span>
+              </div>
+            </div>
+            <div class="brain-view" id="view-decoded" data-view="decoded" aria-hidden="true">
+              <canvas id="decoded-canvas" aria-label="Decoded motor commands"></canvas>
+              <div class="view-overlay">
+                <span class="view-title">MOTOR DECODER OUTPUT</span>
+                <span class="view-subtitle">Bilateral DN asymmetry → Steering | Looming → Fire</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right panel: Actions & Game State -->
+      <section class="panel action-panel" aria-labelledby="action-title">
+        <header class="panel-header">
+          <h2 id="action-title">DECODED ACTIONS & GAME STATE</h2>
+          <div class="panel-controls">
+            <button class="icon-btn" id="action-fullscreen" aria-label="Fullscreen action view" title="Fullscreen">⛶</button>
+          </div>
+        </header>
+        <div class="panel-content">
+          <div class="action-display" id="action-display" aria-live="polite">
+            <div class="action-grid">
+              <div class="action-cell" data-action="forward">
+                <span class="action-icon">▲</span>
+                <span class="action-name">FORWARD</span>
+                <span class="action-key">UP</span>
+              </div>
+              <div class="action-cell" data-action="reverse">
+                <span class="action-icon">▼</span>
+                <span class="action-name">REVERSE</span>
+                <span class="action-key">DOWN</span>
+              </div>
+              <div class="action-cell" data-action="left">
+                <span class="action-icon">◀</span>
+                <span class="action-name">LEFT</span>
+                <span class="action-key">LEFT</span>
+              </div>
+              <div class="action-cell" data-action="right">
+                <span class="action-icon">▶</span>
+                <span class="action-name">RIGHT</span>
+                <span class="action-key">RIGHT</span>
+              </div>
+              <div class="action-cell" data-action="fire">
+                <span class="action-icon">✦</span>
+                <span class="action-name">FIRE</span>
+                <span class="action-key">CTRL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="decoder-state">
+            <h3>DECODER STATE</h3>
+            <div class="state-metrics">
+              <div class="state-metric">
+                <span class="state-label">Turn Δ</span>
+                <span class="state-value" id="turn-delta">0.000</span>
+              </div>
+              <div class="state-metric">
+                <span class="state-label">Visual DN</span>
+                <span class="state-value" id="visual-dn">0.000</span>
+              </div>
+              <div class="state-metric">
+                <span class="state-label">Visual L</span>
+                <span class="state-value" id="visual-l">0.000</span>
+              </div>
+              <div class="state-metric">
+                <span class="state-label">Visual R</span>
+                <span class="state-value" id="visual-r">0.000</span>
+              </div>
+              <div class="state-metric">
+                <span class="state-label">Looming</span>
+                <span class="state-value" id="looming">0.000</span>
+              </div>
+              <div class="state-metric">
+                <span class="state-label">Objects</span>
+                <span class="state-value" id="objects">0.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-state">
+            <h3>GAME TELEMETRY</h3>
+            <div class="telemetry-grid">
+              <div class="telemetry-item"><span class="t-label">Frame Luma</span><span class="t-value" id="luma-mean">0.0</span></div>
+              <div class="telemetry-item"><span class="t-label">Luma Std</span><span class="t-value" id="luma-std">0.0</span></div>
+              <div class="telemetry-item"><span class="t-label">Total Spikes</span><span class="t-value" id="total-spikes">0</span></div>
+              <div class="telemetry-item"><span class="t-label">Sim Time</span><span class="t-value" id="sim-time">0.0 ms</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer: Raw data log -->
+    <footer class="log-panel" id="log-panel" aria-label="Neural data log">
+      <header class="log-header">
+        <span>NEURAL DATA STREAM</span>
+        <button class="icon-btn" id="log-toggle" aria-label="Toggle log" title="Toggle">⌄</button>
+      </header>
+      <div class="log-content" id="log-content" aria-live="polite" aria-atomic="false"></div>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d14">
+  <meta name="description" content="Live FlyScroll connectome experiment running Freedoom with a research-derived fruit fly model."><link rel="icon" href="data:,">
+  <title>FlyScroll Lab · Connectome / DOOM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="FlyScroll Lab home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none"><path d="M18 4.5c3.8 4.2 5.7 8.7 5.7 13.5S21.8 27.3 18 31.5C14.2 27.3 12.3 22.8 12.3 18S14.2 8.7 18 4.5Z" stroke="currentColor" stroke-width="1.5"/><path d="M5 18h26M18 4.5v27" stroke="currentColor" stroke-width="1.2" opacity=".7"/><circle cx="18" cy="18" r="3.2" fill="currentColor"/></svg></span>
+      <span class="brand-copy"><b>FLYSCROLL <i>LAB</i></b><small>CONNECTOME EXPERIMENT / FREEDOOM E1M1</small></span>
+    </a>
+    <div class="header-center"><span class="live-indicator"><i id="live-dot"></i><span id="connection">WAITING FOR SIMULATION</span></span><span class="header-divider"></span><span class="session-label">LOCAL SESSION <b>01</b></span></div>
+    <div class="topmetrics" aria-label="Live simulation metrics">
+      <div class="topmetric"><b id="fps">0</b><small>DECISIONS / S</small></div>
+      <div class="topmetric"><b id="frame">0</b><small>FRAME</small></div>
+      <div class="topmetric"><b id="spikes">0</b><small>SPIKES / STEP</small></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-intro">
+      <div><div class="eyebrow"><span class="eyebrow-line"></span> EXPERIMENTAL NEUROSCIENCE × GAME AI</div><h1>A tiny brain.<br><span>A very bad day in Hell.</span></h1><p>Watch a fruit-fly connectome explore a first-person world, one neural decision at a time.</p></div>
+      <div class="intro-state"><span class="state-pulse"></span><div><small>EXPERIMENT STATUS</small><b id="sim-status">AWAITING FRAME</b></div></div>
+    </section>
+
+    <section class="hero-grid" aria-label="Live simulation and fly model">
+      <article class="panel game-panel">
+        <div class="panel-head"><div class="panel-title"><span class="section-index">01</span><div><label>LIVE ENVIRONMENT</label><h2>Freedoom <span>/</span> E1M1</h2></div></div><span class="tag tag-live"><i></i> LIVE FEED</span></div>
+        <div class="game-screen"><img id="game-frame" alt="Live ViZDoom game framebuffer"><div class="screen-empty" id="screen-empty"><span class="loader-ring"></span><span>Waiting for first ViZDoom frame</span></div><div class="screen-hud"><span><i class="hud-dot"></i> LIVE FRAMEBUFFER</span><span id="target">TARGET · —</span></div><div class="screen-corner">FSC / 001</div></div>
+        <div class="game-stats">
+          <div class="stat-block stat-health"><small>HEALTH</small><b id="health">—</b><div class="meter"><i id="health-bar"></i></div></div>
+          <div class="stat-block"><small>ARMOR</small><b id="armor">—</b><div class="meter meter-blue"><i id="armor-bar"></i></div></div>
+          <div class="stat-block"><small>AMMO</small><b id="ammo">—</b><span class="stat-unit">CURRENT</span></div>
+          <div class="stat-block"><small>KILLS</small><b id="kills">0</b><span class="stat-unit">CONFIRMED</span></div>
+          <div class="stat-block"><small>ITEMS</small><b id="items">0</b><span class="stat-unit">COLLECTED</span></div>
+          <div class="stat-block"><small>SECRETS</small><b id="secrets">0</b><span class="stat-unit">FOUND</span></div>
+        </div>
+      </article>
+
+      <article class="panel fly-panel">
+        <div class="panel-head"><div class="panel-title"><span class="section-index">02</span><div><label>AGENT ANATOMY</label><h2>NeuroMechFly <span>/</span> v2 rig</h2></div></div><span class="tag" id="fly-mode">OBSERVING</span></div>
+        <div class="fly-stage" id="fly-stage"><div class="stage-grid"></div><div class="stage-orbit orbit-a"></div><div class="stage-orbit orbit-b"></div><div class="stage-crosshair"></div><div class="fly-shadow"></div>
+          <canvas id="fly3d" class="fly3d" role="img" aria-label="Interactive three-dimensional NeuroMechFly anatomical model. Drag to rotate and scroll to zoom."></canvas>
+          <div class="fly-load-status" id="fly-load-status"><span class="loader-ring"></span> LOADING ANATOMICAL RIG…</div>
+          <div class="model-corner model-corner-tl">DROSOPHILA<br><b>MELANOGASTER</b></div><div class="model-corner model-corner-tr">69 <small>SEGMENTS</small><br>39 <small>MESHES</small></div>
+          <div class="model-controls"><span><kbd>DRAG</kbd> ROTATE</span><span><kbd>SCROLL</kbd> ZOOM</span></div><button type="button" class="model-reset" id="fly-reset" title="Reset camera view" aria-label="Reset 3D fly camera"><span aria-hidden="true">↺</span> RESET VIEW</button>
+          <div class="fly-caption"><span class="caption-dot"></span><b id="fly-action">OBSERVING</b><span id="fly-detail">Awaiting live motor output</span></div>
+        </div>
+        <div class="action-row" id="action-row"><span>FORWARD</span><span>TURN</span><span>ATTACK</span><span>STRAFE</span></div>
+        <p class="disclaimer">Research-derived geometry · action-driven pose preview · <a href="https://github.com/NeLy-EPFL/fly-svg-maker" target="_blank" rel="noreferrer">MODEL SOURCE ↗</a></p>
+      </article>
+    </section>
+
+    <section class="lower-grid" aria-label="Neural and sensory telemetry">
+      <article class="panel brain-panel">
+        <div class="panel-head"><div class="panel-title"><span class="section-index">03</span><div><label>NEURAL ACTIVITY</label><h2>Connectome signal map</h2></div></div><span class="tag tag-brain" id="brain-status">NO BRAIN DATA</span></div>
+        <div class="brain-layout"><div class="brain-visual"><div class="visual-label">POPULATION NETWORK <span>LIVE SPIKE RATE</span></div><canvas id="brain-canvas" width="640" height="360" aria-label="Neural population activity network visualization"></canvas></div><div class="populations-wrap"><div class="pop-heading"><span>NEURAL POPULATIONS</span><span>HZ</span></div><div class="populations" id="populations"><p>Population rates appear when <code>--connectome</code> is enabled.</p></div></div></div>
+        <div class="brain-foot"><span><i class="foot-dot"></i> REAL POPULATION SPIKE RATES</span><span id="neural-time">0.0 ms simulated</span><span id="kernel-time">0.0 ms kernel</span></div>
+      </article>
+
+      <article class="panel vision-panel">
+        <div class="panel-head"><div class="panel-title"><span class="section-index">04</span><div><label>SENSORY INPUT</label><h2>What the eye sees</h2></div></div><span class="tag">FLYEYE FRONT-END</span></div>
+        <div class="vision-grid"><div><small>LUMINANCE</small><b id="luma">—</b><span class="metric-note">SCENE INTENSITY</span></div><div><small>CHROMATIC</small><b id="chroma">—</b><span class="metric-note">COLOR ENERGY</span></div><div><small>VISUAL LEFT</small><b id="visual-left">—</b><span class="metric-note">LEFT CHANNEL</span></div><div><small>VISUAL RIGHT</small><b id="visual-right">—</b><span class="metric-note">RIGHT CHANNEL</span></div></div>
+        <div class="signal-bars"><div><div class="signal-label"><span>OBJECT DETECTOR</span><b id="object-value">—</b></div><i><b id="object-bar"></b></i></div><div><div class="signal-label"><span>LOOMING DETECTOR</span><b id="loom-value">—</b></div><i><b id="loom-bar"></b></i></div></div>
+        <div class="decision"><div class="decision-head"><span class="decision-pulse"></span><small>ACTIVE TARGET / DECISION</small></div><b id="decision">Waiting…</b><p id="decision-note">The controller's current objective will appear here.</p></div>
+      </article>
+    </section>
+  </main>
+  <footer><span><b>FLYSCROLL LAB</b> <i>BUILD 01</i></span><span>LOCAL EXPERIMENT · 127.0.0.1</span><span>NEURAL READOUTS ARE EXPERIMENTAL, NOT VALIDATED MOTOR EMULATION</span></footer>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+{
+  "experiment": "held_out_trial_static_target_side_decode",
+  "dataset": "malecns_v1",
+  "scale": "full",
+  "neurons": 166700,
+  "edges": 25582938,
+  "input_drive": {
+    "retinal_baseline_current": 8.5,
+    "retinal_contrast_gain": 20.0,
+    "lamina_current": 7.5,
+    "warning": "Exploratory model parameters, not physiologically calibrated values."
+  },
+  "frontend": "spatial",
+  "baseline_frames": 20,
+  "target_frames": 40,
+  "window_frames": 10,
+  "trials": [
+    {
+      "trial": 0,
+      "target_side": "left",
+      "target_rect": [
+        78,
+        14,
+        62,
+        106
+      ],
+      "target_period_spikes": 18291
+    },
+    {
+      "trial": 1,
+      "target_side": "left",
+      "target_rect": [
+        80,
+        54,
+        55,
+        75
+      ],
+      "target_period_spikes": 18190
+    },
+    {
+      "trial": 2,
+      "target_side": "left",
+      "target_rect": [
+        63,
+        11,
+        55,
+        122
+      ],
+      "target_period_spikes": 18295
+    },
+    {
+      "trial": 3,
+      "target_side": "left",
+      "target_rect": [
+        49,
+        17,
+        37,
+        127
+      ],
+      "target_period_spikes": 18198
+    },
+    {
+      "trial": 4,
+      "target_side": "right",
+      "target_rect": [
+        276,
+        26,
+        64,
+        115
+      ],
+      "target_period_spikes": 18054
+    },
+    {
+      "trial": 5,
+      "target_side": "right",
+      "target_rect": [
+        229,
+        48,
+        53,
+        131
+      ],
+      "target_period_spikes": 18037
+    },
+    {
+      "trial": 6,
+      "target_side": "right",
+      "target_rect": [
+        210,
+        29,
+        56,
+        78
+      ],
+      "target_period_spikes": 18072
+    },
+    {
+      "trial": 7,
+      "target_side": "right",
+      "target_rect": [
+        226,
+        15,
+        48,
+        118
+      ],
+      "target_period_spikes": 18133
+    }
+  ],
+  "neural_population_readout": {
+    "accuracy": 0.5312,
+    "predictions": [
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1
+    ],
+    "folds": [
+      {
+        "trial": 0,
+        "accuracy": 0.75,
+        "active_features": 9589
+      },
+      {
+        "trial": 1,
+        "accuracy": 0.75,
+        "active_features": 9608
+      },
+      {
+        "trial": 2,
+        "accuracy": 0.75,
+        "active_features": 9606
+      },
+      {
+        "trial": 3,
+        "accuracy": 0.75,
+        "active_features": 9609
+      },
+      {
+        "trial": 4,
+        "accuracy": 0.25,
+        "active_features": 9595
+      },
+      {
+        "trial": 5,
+        "accuracy": 0.5,
+        "active_features": 9565
+      },
+      {
+        "trial": 6,
+        "accuracy": 0.25,
+        "active_features": 9586
+      },
+      {
+        "trial": 7,
+        "accuracy": 0.25,
+        "active_features": 9600
+      }
+    ],
+    "exact_trial_permutation_test": {
+      "p_value": 0.22857,
+      "permutations": 70,
+      "null_accuracy_mean": 0.40715,
+      "null_accuracy_95th_percentile": 0.56563
+    }
+  },
+  "eye_feature_sanity_check": {
+    "accuracy": 0.75,
+    "predictions": [
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      -1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      -1,
+      -1,
+      -1
+    ],
+    "folds": [
+      {
+        "trial": 0,
+        "accuracy": 0.75,
+        "active_features": 6
+      },
+      {
+        "trial": 1,
+        "accuracy": 0.75,
+        "active_features": 6
+      },
+      {
+        "trial": 2,
+        "accuracy": 1.0,
+        "active_features": 6
+      },
+      {
+        "trial": 3,
+        "accuracy": 1.0,
+        "active_features": 6
+      },
+      {
+        "trial": 4,
+        "accuracy": 0.25,
+        "active_features": 6
+      },
+      {
+        "trial": 5,
+        "accuracy": 1.0,
+        "active_features": 6
+      },
+      {
+        "trial": 6,
+        "accuracy": 1.0,
+        "active_features": 6
+      },
+      {
+        "trial": 7,
+        "accuracy": 0.25,
+        "active_features": 6
+      }
+    ],
+    "exact_trial_permutation_test": {
+      "p_value": 0.08571,
+      "permutations": 70,
+      "null_accuracy_mean": 0.48304,
+      "null_accuracy_95th_percentile": 0.76716
+    }
+  },
+  "interpretation": "This tests whether simulated neural population activity contains coarse target-side information under the chosen stimulus and input regime. It does not validate a biological motor mapping or autonomous gameplay."
+}

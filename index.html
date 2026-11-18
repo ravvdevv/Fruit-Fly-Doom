@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090d12">
+  <title>Fruitfly DOOM</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✹</span><div><strong>FRUITFLY DOOM</strong><small>MALE CNS // NEURAL COMBAT SIMULATION</small></div></div>
+      <div class="status"><span class="live-dot"></span> SIMULATION LIVE <span id="fps">60 FPS</span></div>
+    </header>
+    <div class="main-grid">
+      <section class="game-frame">
+        <canvas id="game" aria-label="First person fruit fly shooter game"></canvas>
+        <div class="scanlines"></div>
+        <div class="hud">
+          <div class="hud-top"><span>SECTOR 01: THE ROT CHAMBER</span><span><span id="pilot-status">AI PILOT: ON</span> · <span id="level">WAVE 01</span></span></div>
+          <div class="crosshair">+</div>
+          <div class="damage-flash" id="damage"></div>
+          <div class="hud-bottom">
+            <div class="stat"><small>VITALITY</small><strong id="health">100</strong><div class="meter"><i id="healthbar"></i></div></div>
+            <div class="fly-face"><span>◉</span><small>FLY-01</small></div>
+            <div class="stat right"><small>NEURONAL AMMO</small><strong id="ammo">12</strong><div class="meter ammo"><i id="ammobar"></i></div></div>
+          </div>
+          <div class="center-message" id="message">
+            <div class="message-card"><p class="eyebrow">CONNECTOME BOOT SEQUENCE</p><h1>THE FLY HAS<br><em>ENTERED HELL.</em></h1><p>One tiny brain. An unreasonable number of demons.</p><button id="start">WATCH FLY PLAY</button><small>AI PILOT ON · PRESS P TO TAKE CONTROL · ESC PAUSE</small></div>
+          </div>
+        </div>
+      </section>
+      <aside class="brain-panel">
+        <div class="brain-header">
+          <strong>FLY BRAIN CONNECTOME</strong>
+          <span class="brain-status"><span class="live-dot"></span> NEURAL ACTIVITY</span>
+        </div>
+        <canvas id="brain-viz" aria-label="Fruit fly brain neural activity visualization"></canvas>
+        <div class="brain-legend">
+          <div class="legend-group">
+            <span class="legend-title">DESCENDING (MOTOR)</span>
+            <div class="legend-items">
+              <span class="legend-item"><i style="background:#ff6b6b"></i>DNa02 steering</span>
+              <span class="legend-item"><i style="background:#ff8e8e"></i>DNp09 forward</span>
+              <span class="legend-item"><i style="background:#ffaaaa"></i>MDN reverse</span>
+              <span class="legend-item"><i style="background:#ffcccc"></i>DNp20</span>
+              <span class="legend-item"><i style="background:#ffe0e0"></i>DNpe017</span>
+            </div>
+          </div>
+          <div class="legend-group">
+            <span class="legend-title">VISUAL (SENSORY)</span>
+            <div class="legend-items">
+              <span class="legend-item"><i style="background:#6bff6b"></i>LC11</span>
+              <span class="legend-item"><i style="background:#8eff8e"></i>LC18</span>
+              <span class="legend-item"><i style="background:#aaffaa"></i>LC17</span>
+              <span class="legend-item"><i style="background:#ccffcc"></i>LPLC2 looming</span>
+              <span class="legend-item"><i style="background:#e0ffe0"></i>LC4</span>
+              <span class="legend-item"><i style="background:#b8ffb8"></i>LC6</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <footer><span>OBJECTIVE: SURVIVE THE ROT CHAMBER</span><span id="score">KILLS 000 · SCORE 0000</span><span>ESC PAUSE</span></footer>
+  </main>
+  <script src="brain_viz.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
