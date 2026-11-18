@@ -2,7 +2,7 @@
 
 **Can a simulated fruit-fly brain learn to play DOOM?** This project explores that question by connecting a fruit fly's simulated visual system and brain to a DOOM-like game.
 
-It uses [FlyScroll](https://github.com/ravvdevv/Fruitfly-Doomscroller) to simulate part of a *Drosophila* (fruit fly) nervous system. The long-term idea is to turn what the simulated brain sees into simple game controls.
+It uses [FlyScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll) to simulate part of a *Drosophila* (fruit fly) nervous system. The long-term idea is to turn what the simulated brain sees into simple game controls.
 
 > **Research status:** This is an early experiment. A small test detected motion-direction information in simulated neural activity, but the project has not demonstrated a fruit-fly connectome independently playing or completing DOOM.
 
@@ -78,7 +78,7 @@ Temporary test scripts, debug logs, downloaded game files, and local Python envi
 This project currently targets **Windows 10/11** and uses:
 
 - Python 3.11 for the original FlyScroll environment
-- [FlyScroll / Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller)
+- [FlyScroll / Fruit-Fly-DoomScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll)
 - [GZDoom](https://zdoom.org/downloads), the game engine
 - [Freedoom](https://github.com/freedoom/freedoom/releases), free game files compatible with the engine
 - The Python packages listed in `requirements-viz.txt` for the dashboard
@@ -174,7 +174,7 @@ New experiment reports are written to `experiments/results/latest/`. The committ
 
 ## Credits
 
-- [FlyScroll / Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller) for the connectome simulation and visual-processing foundation
+- [FlyScroll / Fruit-Fly-DoomScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll) for the connectome simulation and visual-processing foundation
 - [GZDoom](https://zdoom.org/) for the game engine
 - [Freedoom](https://freedoom.github.io/) for free DOOM-compatible game assets
 
