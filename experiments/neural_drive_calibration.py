@@ -14,7 +14,7 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 POPULATIONS = ("R1-R6", "L1", "L2", "L3", "L5", "T1", "C2", "C3", "Mi1", "Mi4", "Mi9", "Tm1", "Tm2", "Tm3", "Tm4", "Tm9", "DNp20", "DNpe017", "DNa02", "DNp09", "MDN", "LC11", "LC18", "LC17", "LPLC2", "LC4", "LC6", "VS", "HSN", "HSE", "HSS")
 CONDITIONS = ("baseline", "bar_left_to_right", "bar_right_to_left", "looming")
 REGIMES = (
@@ -47,11 +47,11 @@ def make_frame(kind: str, index: int, total: int, width: int = 320, height: int 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Sweep exploratory retinal and lamina current gains.")
-    parser.add_argument("--flyscroll-root", type=Path, default=Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller"))
+    parser.add_argument("--flyscroll-root", type=Path, default=ROOT.parent / "Fruitfly-Doomscroller")
     parser.add_argument("--scale", choices=("full", "visual"), default="full")
     parser.add_argument("--frames-per-condition", type=int, default=120)
     parser.add_argument("--neural-ms", type=float, default=2.0)
-    parser.add_argument("--output", type=Path, default=ROOT / "neural_drive_calibration.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "experiments" / "results" / "latest" / "neural_drive_calibration.json")
     args = parser.parse_args()
     if args.frames_per_condition < 2 or args.neural_ms <= 0:
         parser.error("frames-per-condition must be >= 2 and neural-ms must be positive")
@@ -172,6 +172,7 @@ def main() -> int:
         "warning": "Drive regimes are exploratory engineering parameters, not physiologically calibrated values.",
         "results": results,
     }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"[cal] wrote {args.output}", flush=True)
     return 0

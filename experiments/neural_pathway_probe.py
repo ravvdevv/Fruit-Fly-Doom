@@ -14,8 +14,8 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
-DEFAULT_FLYSCROLL = Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller")
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_FLYSCROLL = ROOT.parent / "Fruitfly-Doomscroller"
 POPULATIONS = ("DNa02", "DNp09", "MDN", "DNp20", "DNpe017", "LC11", "LC18", "LC17", "LPLC2", "LC4", "LC6", "VS", "HSN", "HSE", "HSS")
 
 
@@ -49,11 +49,11 @@ def make_frame(kind: str, index: int, total: int, width: int = 320, height: int 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Probe connectome responses to controlled visual stimuli.")
-    parser.add_argument("--flyscroll-root", type=Path, default=Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller"))
+    parser.add_argument("--flyscroll-root", type=Path, default=DEFAULT_FLYSCROLL)
     parser.add_argument("--scale", choices=("full", "visual"), default="full")
     parser.add_argument("--neural-ms", type=float, default=2.0)
     parser.add_argument("--frames-per-condition", type=int, default=120)
-    parser.add_argument("--output", type=Path, default=ROOT / "neural_pathway_probe.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "experiments" / "results" / "latest" / "neural_pathway_probe.json")
     args = parser.parse_args()
 
     if args.neural_ms <= 0 or args.frames_per_condition < 2:

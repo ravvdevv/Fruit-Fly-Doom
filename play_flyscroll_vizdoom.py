@@ -22,7 +22,7 @@ from PIL import Image
 import vizdoom as vzd
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_FLYSCROLL = Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller")
+DEFAULT_FLYSCROLL = ROOT.parent / "Fruitfly-Doomscroller"
 WAD = ROOT / "freedoom-0.13.0" / "freedoom1.wad"
 
 

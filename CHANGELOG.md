@@ -2,6 +2,14 @@
 
 ## 2026-11-18
 
+### Repository cleanup and layout
+- Grouped research scripts and committed reference outputs under `experiments/`.
+- Moved the standalone browser raycaster into `prototypes/browser-raycaster/` to distinguish it from the real game bridge.
+- Removed one-off test/debug scripts, the old input-test launcher, local logs, and temporary diagnostic files.
+- Replaced machine-specific FlyScroll paths with a neighboring-checkout default and `FLYSCROLL_ROOT` override.
+- Updated experiment output paths so new runs do not overwrite committed reference results.
+- Rewrote the README with a beginner-friendly project explanation and repository map.
+
 ### Neural-control calibration and readout experiments
 - Added an opt-in `--motion-decoder` path to `connectome_doom.py`. It requires the full 166,700-neuron graph, applies the same exploratory drive regime as the trained readout, accumulates calibrated 20-frame spike windows, and emits one-frame left/right turn pulses. The existing legacy decoder remains the default. This mode is experimental and must be evaluated in dry-run against real Doom footage before live control.
 - Added `neural_drive_calibration.py` to sweep retinal and lamina current through the existing `Brain.step(enrich_drive=...)` hook without modifying the upstream FlyScroll engine.

@@ -516,7 +516,7 @@ def main():
     parser.add_argument("--connectome-scale", choices=("visual", "full"), default="visual", help="Use the reduced visual graph or the full prepared connectome.")
     parser.add_argument("--no-dashboard", action="store_true", help="Disable the live browser dashboard.")
     parser.add_argument("--dashboard-port", type=int, default=8765)
-    parser.add_argument("--flyscroll-root", type=Path, default=Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller"))
+    parser.add_argument("--flyscroll-root", type=Path, default=ROOT.parent / "Fruitfly-Doomscroller")
     args = parser.parse_args()
 
     if not WAD.is_file():

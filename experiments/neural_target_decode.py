@@ -15,8 +15,9 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
-DEFAULT_FLYSCROLL = Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+DEFAULT_FLYSCROLL = ROOT.parent / "Fruitfly-Doomscroller"
 
 
 def make_frame(side: int, onset: bool, x: int, y: int, width: int, height: int) -> np.ndarray:
@@ -82,7 +83,7 @@ def main() -> int:
     parser.add_argument("--retinal-baseline-current", type=float, default=8.5)
     parser.add_argument("--retinal-contrast-gain", type=float, default=20.0)
     parser.add_argument("--lamina-current", type=float, default=7.5)
-    parser.add_argument("--output", type=Path, default=ROOT / "neural_target_decode.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "experiments" / "results" / "latest" / "neural_target_decode.json")
     args = parser.parse_args()
     if args.trials_per_side < 2 or args.baseline_frames < 1 or args.target_frames < args.window_frames:
         parser.error("Need >=2 trials per side, baseline-frames >=1 and target-frames >= window-frames.")
@@ -202,6 +203,7 @@ def main() -> int:
             "motor mapping or autonomous gameplay."
         ),
     }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(
         f"[target] neural accuracy={neural['accuracy']:.3f}; eye accuracy={eye['accuracy']:.3f}; "

@@ -2,13 +2,15 @@
 setlocal
 cd /d "%~dp0"
 
-set "FLYSCROLL_PY=D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller\.venv\Scripts\python.exe"
+if not defined FLYSCROLL_ROOT set "FLYSCROLL_ROOT=%~dp0..\Fruitfly-Doomscroller"
+set "FLYSCROLL_PY=%FLYSCROLL_ROOT%\.venv\Scripts\python.exe"
 set "ENGINE=%~dp0gzdoom-4-14-2-windows\gzdoom.exe"
 set "IWAD=%~dp0freedoom-0.13.0\freedoom1.wad"
 
 if not exist "%FLYSCROLL_PY%" (
   echo [ERROR] FlyScroll Python environment was not found:
   echo   %FLYSCROLL_PY%
+  echo Set FLYSCROLL_ROOT to the FlyScroll checkout.
   pause
   exit /b 1
 )
@@ -27,15 +29,13 @@ if not exist "%IWAD%" (
   exit /b 1
 )
 
-echo [game] Launching GZDoom with the bundled Freedoom IWAD...
-echo [game] IWAD: "%IWAD%"
+echo [game] Launching GZDoom with the Freedoom IWAD...
 start "Freedoom Connectome" "%ENGINE%" -iwad "%IWAD%" +map E1M1
 echo [game] Waiting for the game window...
 timeout /t 8 /nobreak >nul
 
-echo [brain] Starting Python connectome controller...
-echo [brain] If an error appears below, this window will stay open.
-"%FLYSCROLL_PY%" -u "%~dp0connectome_doom.py" %*
+echo [brain] Starting the connectome controller...
+"%FLYSCROLL_PY%" -u "%~dp0connectome_doom.py" --flyscroll-root "%FLYSCROLL_ROOT%" %*
 set "EXIT_CODE=%ERRORLEVEL%"
 
 echo.

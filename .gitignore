@@ -3,18 +3,33 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node and frontend tooling
+node_modules/
+dist/
+build/
+
+# Local environments and editor/OS files
 .env
 .env.*
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
 
-# Downloaded third-party game binaries and assets
-gzdoom-*/
-freedoom-*/
+# Downloaded third-party game engine and game data
+/gzdoom-*/
+/freedoom-*/
 
-# Local runtime output
-get-pip.py
-neural_doom_dryrun.*
-neural_motion_decode*.json
-neural_target_decode*.json
+# Local experiment output (committed reference results stay tracked)
+/experiments/results/latest/
+/experiments/results/*_latest.json
+/neural_doom_dryrun.*
 *.log
 *.err
 *.out
@@ -24,7 +39,9 @@ out.txt
 err.txt
 pip_out.txt
 _vizdoom.ini
-_inspect_windows.py
 
-# Local test/debug helpers
-test_*.py
+# Local test and debugging helpers
+/test_*.py
+/test-*.bat
+/_inspect_windows.py
+/get-pip.py

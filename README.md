@@ -1,205 +1,185 @@
 # Fruit Fly Doom
 
-**An experimental fruit-fly connectome meets DOOM project.** This repository explores whether neural activity from the FlyScroll *Drosophila* MaleCNS connectome can be driven by visual input from a Doom-like environment and decoded into simple game actions.
+**Can a simulated fruit-fly brain learn to play DOOM?** This project explores that question by connecting a fruit fly's simulated visual system and brain to a DOOM-like game.
 
-The project combines computational neuroscience, connectome simulation, computer vision, neural readouts, and the classic DOOM engine. It is a research prototype, not a claim that a biological fruit fly can independently play DOOM.
+It uses [FlyScroll](https://github.com/ravvdevv/Fruitfly-Doomscroller) to simulate part of a *Drosophila* (fruit fly) nervous system. The long-term idea is to turn what the simulated brain sees into simple game controls.
 
-> **Research status:** A small controlled moving-bar experiment found motion-direction information in simulated connectome activity. The experimental decoder has an opt-in Doom bridge, but it has **not yet been validated on real Doom gameplay footage**. Reliable target localization and autonomous neural-only gameplay are not demonstrated.
+> **Research status:** This is an early experiment. A small test detected motion-direction information in simulated neural activity, but the project has not demonstrated a fruit-fly connectome independently playing or completing DOOM.
 
-## Dashboard preview
+## Dashboard
 
-![FlyScroll Lab neural visualization dashboard](dashboard-screenshot.png)
+![FlyScroll neural dashboard](dashboard-screenshot.png)
 
-The screenshot shows the dashboard UI with the NeuroMechFly anatomical model loaded. It is an idle dashboard capture: no live ViZDoom framebuffer or connectome telemetry was connected when it was taken. The game and neural panels require a running simulation/controller to display live data.
+This is a static screenshot of the dashboard with its 3D fly model loaded, not a recording of a live game session.
 
-## What is in this repository?
+## How it works
 
-- **FlyScroll connectome bridge** — feeds captured game frames through the FlyEye visual front end and MaleCNS neural simulation.
-- **Experimental neural motion readout** — a supervised linear decoder that reads spike-count windows and emits left/right turn predictions.
-- **Adventure pilot** — a separate hand-written game policy that uses ViZDoom game metadata for navigation and combat, with connectome activity contributing a bounded exploration bias.
-- **Neural experiments** — scripts for stimulus probes, retinal/lamina drive calibration, motion-direction decoding, and target-side decoding.
-- **Live dashboards** — browser views for game state, neural population activity, FlyEye features, and an animated fly visualization.
-- **Browser prototype** — a small standalone raycaster prototype; it is not the connectome-controlled Freedoom environment.
+1. **The game produces an image.** The system captures a frame from DOOM or Freedoom.
+2. **The fly's visual system processes it.** FlyEye turns the image into visual signals.
+3. **The simulated brain processes those signals.** FlyScroll runs a model of the fruit fly's nervous system.
+4. **A readout looks for movement.** An experimental decoder examines neural activity and predicts the direction of visual motion.
+5. **The experiment can send a control.** Turning predictions into reliable game actions is still being tested.
 
-## Architecture
+A separate game pilot also exists. It uses ordinary programmed rules and game information, so it is not the same as playing with neural activity alone.
 
-```text
-DOOM / Freedoom framebuffer
-          |
-          v
-   RGB frame capture
-          |
-          v
- FlyEye visual processing
-          |
-          v
- FlyScroll MaleCNS connectome
-          |
-          v
- Neural population spike counts
-          |
-          v
- Experimental motion readout
-          |
-          v
- Left / right turn pulse (experimental)
-```
+## What has been tested?
 
-The experimental motion decoder currently handles only a narrow motion-direction task. It does not provide robust object recognition, target localization, navigation, aiming, firing, or autonomous level completion.
+### Motion detection
 
-The separate AdventurePilot is not a neural-only agent: it uses a hand-written policy and ViZDoom's object/sector information. The connectome is an exploration-bias signal, not the sole source of its decisions.
+In an initial experiment, the system watched simple moving-bar patterns:
 
-## Research results and limitations
-
-### Motion-direction decoding
-
-An initial experiment used 10 controlled trials (5 per direction), held-out-trial evaluation, and an exact balanced trial-label permutation test:
-
-| Measure | Initial result |
+| Measurement | Result |
 | --- | ---: |
-| Connectome population readout accuracy | 78.3% |
-| FlyEye feature sanity-check accuracy | 80.0% |
-| Exact permutation p-value | 0.00794 |
+| Neural readout accuracy | 78.3% |
+| Visual-feature check | 80.0% |
+| Trials | 10 (5 per direction) |
 
-These are preliminary results from synthetic moving-bar stimuli under one exploratory input-current regime. They are **not** Doom gameplay accuracy, biological validation, or proof of generalization. More independent trials, randomized stimulus parameters, cross-stimulus tests, and appropriate controls are needed.
+These early results suggest that simulated neural activity contains information about motion direction. The test used simple artificial images, not actual DOOM gameplay. More trials and independent testing are needed.
 
-### Target-side decoding
+### Finding a target
 
-The initial static left/right target experiment reached 53.1% accuracy across 8 trials, with permutation p = 0.2. That is not convincing evidence of reliable target localization.
+A separate experiment tried to tell whether a static target was on the left or right:
 
-### Biological interpretation
+- Accuracy: **53.1%**
+- Trials: **8**
+- Permutation test p-value: **0.2**
 
-The retinal and lamina currents used in calibration are exploratory engineering settings, not measured physiological parameters. The trained motion readout is a supervised external decoder, not a validated descending-neuron-to-motor circuit. The animated fly is a visualization, not a physics-based locomotion simulation.
+This is not strong evidence that the system can reliably locate targets.
 
-## Requirements
+## Project structure
 
-- Windows 10/11 (the supplied launch scripts are Windows batch files)
+The repository is organized by purpose:
+
+```text
+Fruit-Fly-Doom/
+├── experiments/             # Research scripts and experiment results
+│   └── results/             # Committed reference results
+├── dashboard/               # Adventure pilot dashboard
+├── neural_viz_frontend/     # Neural visualization dashboard
+├── prototypes/
+│   └── browser-raycaster/   # Standalone browser game prototype
+├── connectome_doom.py       # Experimental game-to-connectome bridge
+├── play_flyscroll_adventure.py
+├── neural_viz_server.py
+├── calibrated_flyvision.py
+├── neural_motor_decoder.py
+├── neural_motion_readout.npz
+├── neural_motion_samples.npz
+├── launch-*.bat             # Windows launch scripts
+├── run-*.bat
+├── requirements-viz.txt
+└── README.md
+```
+
+Temporary test scripts, debug logs, downloaded game files, and local Python environments are not part of the repository.
+
+## What you need
+
+This project currently targets **Windows 10/11** and uses:
+
 - Python 3.11 for the original FlyScroll environment
-- A separate checkout of [Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller), including its prepared MaleCNS graph and Python environment
-- GZDoom
-- Freedoom Phase 1 (IWAD)
-- Python packages listed in `requirements-viz.txt` for the visualization server
+- [FlyScroll / Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller)
+- [GZDoom](https://zdoom.org/downloads), the game engine
+- [Freedoom](https://github.com/freedoom/freedoom/releases), free game files compatible with the engine
+- The Python packages listed in `requirements-viz.txt` for the dashboard
 
-The GZDoom engine and Freedoom IWAD are intentionally **not committed** to this repository. Download them from their official project sources and place the extracted files in the expected folders:
+Download GZDoom and Freedoom separately. They are intentionally not included in this repository.
 
-- GZDoom: [ZDoom downloads](https://zdoom.org/downloads)
-- Freedoom: [Freedoom releases](https://github.com/freedoom/freedoom/releases)
-
-Expected local paths:
+Expected local folders:
 
 ```text
-gzdoom-4-14-2-windows/
-  gzdoom.exe
-freedoom-0.13.0/
-  freedoom1.wad
+Fruit-Fly-Doom/
+├── gzdoom-4-14-2-windows/
+│   └── gzdoom.exe
+└── freedoom-0.13.0/
+    └── freedoom1.wad
 ```
 
-The connectome bridge also expects the original FlyScroll checkout at:
+Place the original FlyScroll checkout beside this repository:
 
 ```text
-../Fruitfly-Doomscroller/
+Experimental-projects/
+├── Fruit-Fly-Doom/
+└── Fruitfly-Doomscroller/
 ```
 
-In particular, its Python 3.11 environment and prepared visual graph must be available. See that project's own setup instructions for preparing them.
+The launch scripts look for FlyScroll in that neighboring folder by default. You can override it by setting the `FLYSCROLL_ROOT` environment variable or passing `--flyscroll-root` where supported. Follow FlyScroll's own setup instructions to prepare its Python environment and connectome data.
 
-## Run
+## Run it
 
-### 1. Launch Freedoom by itself
+### 1. Start Freedoom
 
-After installing GZDoom and Freedoom in the expected folders:
+After installing GZDoom and Freedoom in the folders above, run:
 
 ```bat
 launch-freedoom.bat
 ```
 
-### 2. Run the existing AdventurePilot
+This starts the game by itself. It does not start the neural controller.
 
-```bat
-play-flyscroll-adventure.bat
-```
+### 2. Open the neural dashboard
 
-Or run it directly from the original FlyScroll Python environment:
-
-```bat
-..\Fruitfly-Doomscroller\.venv\Scripts\python.exe play_flyscroll_adventure.py --connectome --god-mode --skill 0
-```
-
-This is a connectome-assisted, hand-written policy. It uses game metadata to identify enemies and navigate.
-
-### 3. Run the experimental neural motion decoder in dry-run mode
-
-Start with observation only. Dry-run mode processes frames and reports predictions without sending keyboard input:
-
-```bat
-run-connectome-doom.bat --scale full --motion-decoder --dry-run --frames 200
-```
-
-The motion decoder requires the full 166,700-neuron graph and the trained `neural_motion_readout.npz` file. Live keyboard control is deliberately gated behind `--allow-experimental-live-control`, because the readout has not been validated on Doom footage.
-
-Useful options:
-
-| Option | Purpose |
-| --- | --- |
-| `--motion-decoder` | Enable the experimental trained motion-direction readout |
-| `--motion-window-frames 20` | Frames accumulated for each spike-count window |
-| `--motion-minimum-margin 0.0` | Optional readout confidence margin |
-| `--motion-model PATH` | Use a different trained readout file |
-| `--dry-run` | Do not send keyboard input |
-| `--frames 200` | Stop after a fixed number of captured frames |
-| `--scale full` | Load the full connectome required by the motion readout |
-| `--no-viz` | Disable neural visualization telemetry |
-| `--allow-experimental-live-control` | Explicitly unlock unvalidated live keyboard control |
-
-### 4. Run the neural visualization dashboard
+Run:
 
 ```bat
 launch-neural-viz.bat
 ```
 
-Open [http://127.0.0.1:8765/viz](http://127.0.0.1:8765/viz).
+Then open [http://127.0.0.1:8765/viz](http://127.0.0.1:8765/viz) in your browser.
 
-The dashboard displays simulated neural activity and visual-processing telemetry. It is a visualization of the model and its readouts, not a biological reconstruction of every neuron in 3D.
+The dashboard displays neural and visual-processing information when a simulation sends it data. Without a running simulation, some panels will be idle.
 
-## Experiment scripts
+### 3. Try the experimental controller safely
 
-| Script | Purpose |
+Dry-run mode observes game frames and prints predictions without pressing keys:
+
+```bat
+run-connectome-doom.bat --scale full --motion-decoder --dry-run --frames 200
+```
+
+The motion decoder needs the full 166,700-neuron graph and the included `neural_motion_readout.npz` model.
+
+Actual keyboard control is deliberately disabled unless you explicitly add `--allow-experimental-live-control`. The decoder has not yet been validated on real gameplay, so start with dry-run mode.
+
+## Research scripts
+
+Run these from the repository root with the FlyScroll Python environment:
+
+| Script | What it does |
 | --- | --- |
-| `neural_pathway_probe.py` | Controlled baseline, bar, motion, and looming stimulus probes |
-| `neural_drive_calibration.py` | Exploratory retinal and lamina input-current sweeps |
-| `neural_motion_decode.py` | Held-out-trial motion-direction decoding experiment |
-| `neural_target_decode.py` | Static left/right target-side decoding experiment |
-| `neural_motor_decoder.py` | Inference adapter for the trained motion readout |
-| `calibrated_flyvision.py` | Experimental spatial-contrast FlyEye front end |
-| `connectome_doom.py` | GZDoom frame capture and connectome bridge |
-| `play_flyscroll_adventure.py` | Separate ViZDoom adventure policy |
-| `flyscroll_dashboard.py` | Local dashboard server for the adventure pilot |
+| `experiments/neural_pathway_probe.py` | Tests how the simulated brain responds to visual patterns |
+| `experiments/neural_drive_calibration.py` | Tests different visual input settings |
+| `experiments/neural_motion_decode.py` | Tests whether neural activity can identify motion direction |
+| `experiments/neural_target_decode.py` | Tests whether neural activity can identify a target's side |
 
-The checked-in JSON files preserve selected experiment outputs. The `.npz` files contain the small trained readout and its sample data.
+For example:
 
-## Project status
+```bat
+..\Fruitfly-Doomscroller\.venv\Scripts\python.exe experiments\neural_motion_decode.py
+```
 
-- [x] Connectome and FlyEye stimulus probing
-- [x] Exploratory retinal/lamina drive calibration
-- [x] Initial motion-direction information readout
-- [x] Experimental readout-to-Doom bridge
-- [x] Dry-run and live-control safety gates
-- [ ] Validate the motion readout on recorded Doom frames
-- [ ] Demonstrate robust target-side decoding
-- [ ] Establish a defensible neural-to-motor mapping
-- [ ] Demonstrate reliable neural-only gameplay
+New experiment reports are written to `experiments/results/latest/`. The committed files directly inside `experiments/results/` are reference results from earlier runs.
 
-## Credits and upstream projects
+## Current status
 
-- [FlyScroll / Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller) — connectome simulation and visual processing foundation
-- [GZDoom](https://zdoom.org/) — Doom engine
-- [Freedoom](https://freedoom.github.io/) — free Doom-compatible game assets
+- [x] Connect visual input to the FlyScroll simulation
+- [x] Run early visual-response experiments
+- [x] Train an initial motion-direction readout
+- [x] Add an experimental game connection
+- [x] Provide a dry-run mode that does not press game controls
+- [ ] Test the decoder on real DOOM gameplay footage
+- [ ] Improve target detection
+- [ ] Validate how neural predictions should control movement
+- [ ] Demonstrate reliable gameplay using neural activity alone
 
-Review upstream licenses and attribution requirements when downloading or redistributing third-party components.
+## Credits
 
-## Keywords
+- [FlyScroll / Fruitfly-Doomscroller](https://github.com/ravvdevv/Fruitfly-Doomscroller) for the connectome simulation and visual-processing foundation
+- [GZDoom](https://zdoom.org/) for the game engine
+- [Freedoom](https://freedoom.github.io/) for free DOOM-compatible game assets
 
-Fruit fly connectome, Drosophila melanogaster, DOOM AI, neural network simulation, computational neuroscience, connectomics, FlyScroll, MaleCNS, visual neuroscience, neural decoding, GZDoom, Freedoom, Python, brain-inspired AI.
+Check each upstream project's license before redistributing its software or assets.
 
 ---
 
-**Status:** Experimental research prototype. Results and limitations are documented above; please do not interpret the current controller as a validated biological fruit-fly brain playing DOOM.
+**This is an experimental computational-neuroscience project, not a working biological fruit-fly DOOM player.**

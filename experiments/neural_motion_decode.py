@@ -15,8 +15,9 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
-DEFAULT_FLYSCROLL = Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller")
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+DEFAULT_FLYSCROLL = ROOT.parent / "Fruitfly-Doomscroller"
 
 
 def make_frame(direction: int, frame_index: int, total: int, bar_width: int, speed: float) -> np.ndarray:
@@ -103,7 +104,7 @@ def main() -> int:
     parser.add_argument("--frontend", choices=("original", "spatial"), default="spatial")
     parser.add_argument("--model-output", type=Path, default=ROOT / "neural_motion_readout.npz")
     parser.add_argument("--samples-output", type=Path, default=ROOT / "neural_motion_samples.npz")
-    parser.add_argument("--output", type=Path, default=ROOT / "neural_motion_decode.json")
+    parser.add_argument("--output", type=Path, default=ROOT / "experiments" / "results" / "latest" / "neural_motion_decode.json")
     args = parser.parse_args()
     if args.trials_per_direction < 2 or args.frames < args.window_frames or args.window_frames < 1:
         parser.error("Need >=2 trials per direction and frames >= window-frames >= 1.")
@@ -242,6 +243,7 @@ def main() -> int:
             "a motor mapping, biological accuracy, or autonomous control."
         ),
     }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(
         f"[decode] neural accuracy={neural['accuracy']:.3f}; "

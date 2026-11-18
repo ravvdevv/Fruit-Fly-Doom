@@ -15,7 +15,7 @@ import numpy as np
 from PIL import Image, ImageGrab
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_FLYSCROLL = Path(r"D:\Experimental-projects\Fucking-fruitfly\Fruitfly-Doomscroller")
+DEFAULT_FLYSCROLL = ROOT.parent / "Fruitfly-Doomscroller"
 
 
 def find_game_window(fragment: str):
