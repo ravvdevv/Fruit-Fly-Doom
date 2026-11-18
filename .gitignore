@@ -13,6 +13,8 @@ freedoom-*/
 # Local runtime output
 get-pip.py
 neural_doom_dryrun.*
+neural_motion_decode*.json
+neural_target_decode*.json
 *.log
 *.err
 *.out
