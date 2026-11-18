@@ -6,6 +6,12 @@ The project combines computational neuroscience, connectome simulation, computer
 
 > **Research status:** A small controlled moving-bar experiment found motion-direction information in simulated connectome activity. The experimental decoder has an opt-in Doom bridge, but it has **not yet been validated on real Doom gameplay footage**. Reliable target localization and autonomous neural-only gameplay are not demonstrated.
 
+## Dashboard preview
+
+![FlyScroll Lab neural visualization dashboard](dashboard-screenshot.png)
+
+The screenshot shows the dashboard UI with the NeuroMechFly anatomical model loaded. It is an idle dashboard capture: no live ViZDoom framebuffer or connectome telemetry was connected when it was taken. The game and neural panels require a running simulation/controller to display live data.
+
 ## What is in this repository?
 
 - **FlyScroll connectome bridge** — feeds captured game frames through the FlyEye visual front end and MaleCNS neural simulation.
