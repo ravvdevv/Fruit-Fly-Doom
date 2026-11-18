@@ -2,7 +2,7 @@
 
 **Can a simulated fruit-fly brain learn to play DOOM?** This project explores that question by connecting a fruit fly's simulated visual system and brain to a DOOM-like game.
 
-It uses [FlyScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll) to simulate part of a *Drosophila* (fruit fly) nervous system. The long-term idea is to turn what the simulated brain sees into simple game controls.
+It uses a separate FlyScroll checkout to simulate part of a *Drosophila* (fruit fly) nervous system. The long-term idea is to turn what the simulated brain sees into simple game controls.
 
 > **Research status:** This is an early experiment. A small test detected motion-direction information in simulated neural activity, but the project has not demonstrated a fruit-fly connectome independently playing or completing DOOM.
 
@@ -73,37 +73,12 @@ Fruit-Fly-Doom/
 
 Temporary test scripts, debug logs, downloaded game files, and local Python environments are not part of the repository.
 
-## What you need
+## Requirements
 
-This project currently targets **Windows 10/11** and uses:
-
-- Python 3.11 for the original FlyScroll environment
-- [FlyScroll / Fruit-Fly-DoomScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll)
-- [GZDoom](https://zdoom.org/downloads), the game engine
-- [Freedoom](https://github.com/freedoom/freedoom/releases), free game files compatible with the engine
-- The Python packages listed in `requirements-viz.txt` for the dashboard
-
-Download GZDoom and Freedoom separately. They are intentionally not included in this repository.
-
-Expected local folders:
-
-```text
-Fruit-Fly-Doom/
-├── gzdoom-4-14-2-windows/
-│   └── gzdoom.exe
-└── freedoom-0.13.0/
-    └── freedoom1.wad
-```
-
-Place the original FlyScroll checkout beside this repository:
-
-```text
-Experimental-projects/
-├── Fruit-Fly-Doom/
-└── Fruitfly-Doomscroller/
-```
-
-The launch scripts look for FlyScroll in that neighboring folder by default. You can override it by setting the `FLYSCROLL_ROOT` environment variable or passing `--flyscroll-root` where supported. Follow FlyScroll's own setup instructions to prepare its Python environment and connectome data.
+- Windows 10/11 and Python 3.11
+- GZDoom and Freedoom, installed separately
+- Python packages from `requirements-viz.txt`
+- A separately installed FlyScroll environment, configured with `FLYSCROLL_ROOT`
 
 ## Run it
 
@@ -152,10 +127,10 @@ Run these from the repository root with the FlyScroll Python environment:
 | `experiments/neural_motion_decode.py` | Tests whether neural activity can identify motion direction |
 | `experiments/neural_target_decode.py` | Tests whether neural activity can identify a target's side |
 
-For example:
+For example, with the FlyScroll Python environment activated:
 
 ```bat
-..\Fruitfly-Doomscroller\.venv\Scripts\python.exe experiments\neural_motion_decode.py
+python experiments\neural_motion_decode.py
 ```
 
 New experiment reports are written to `experiments/results/latest/`. The committed files directly inside `experiments/results/` are reference results from earlier runs.
@@ -174,7 +149,7 @@ New experiment reports are written to `experiments/results/latest/`. The committ
 
 ## Credits
 
-- [FlyScroll / Fruit-Fly-DoomScroll](https://github.com/ravvdevv/Fruit-Fly-DoomScroll) for the connectome simulation and visual-processing foundation
+- FlyScroll, a separate project, for the connectome simulation and visual-processing foundation
 - [GZDoom](https://zdoom.org/) for the game engine
 - [Freedoom](https://freedoom.github.io/) for free DOOM-compatible game assets
 
