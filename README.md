@@ -6,11 +6,11 @@ It uses [FlyScroll](https://github.com/ravvdevv/Fruitfly-Doomscroller) to simula
 
 > **Research status:** This is an early experiment. A small test detected motion-direction information in simulated neural activity, but the project has not demonstrated a fruit-fly connectome independently playing or completing DOOM.
 
-## Dashboard
+## Live dashboard
 
-![FlyScroll neural dashboard](dashboard-screenshot.png)
+![FlyScroll live dashboard](dashboard-screenshot.png)
 
-This is a static screenshot of the dashboard with its 3D fly model loaded, not a recording of a live game session.
+The dashboard streams game frames and simulation telemetry while the FlyScroll adventure pilot is running. It displays the game view alongside the fly's 3D model, neural activity, visual signals, and current actions. The image above is a static snapshot of the dashboard, not a gameplay recording.
 
 ## How it works
 
